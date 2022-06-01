@@ -14,7 +14,7 @@ docker exec -it dev1 /bin/sh
 
 docker run --rm --name dev1 dev1
 
-JasonCeballos:~/environment $ docker pause $(docker ps -l -q)
+docker pause $(docker ps -l -q)
 
 docker exec -it dev1 /bin/sh
 
@@ -46,5 +46,9 @@ docker export --output ="test.tar" $(docker ps -l -q)
 
 docker exec -it $(docker ps -l -q) /bin/sh
 
+#start the container with the info found in docker-compose.yml file in the directory
+docker-compose up
 
+#Run in detached mode.
+docker-compose up -d
 
