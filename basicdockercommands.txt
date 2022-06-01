@@ -1,0 +1,50 @@
+docker ps
+
+docker ps -a
+
+docker build 
+
+docker images
+
+docker rm -f $(docker  ps -a -q)
+
+docker rmi -f $(docker images -a -q)
+
+docker exec -it dev1 /bin/sh
+
+docker run --rm --name dev1 dev1
+
+JasonCeballos:~/environment $ docker pause $(docker ps -l -q)
+
+docker exec -it dev1 /bin/sh
+
+docker build -t dev1 .
+
+docker volume create dev1-vol
+
+docker volume ls
+
+docker volume inspect dev1-vol
+
+docker volume rm dev1-vol
+
+docker inspect
+
+docker kill
+
+docker run -dp 5000:5000 --name dev1 --unmount source=dev1-vol,target=/app dev1
+
+docker run -dp 5000:5000 --name dev1 --mount source=dev1-vol,target=/app dev1
+
+docker import -c 'WORKDIR /app' -c 'ENTRYPOINT ["python"]' -c 'CMD ["app.py"]' test.tar dev:test
+
+docker import test.tar dev:test
+
+tar -tvf test.tar | grep app.py
+
+docker export --output ="test.tar" $(docker ps -l -q)
+
+docker exec -it $(docker ps -l -q) /bin/sh
+
+
+
