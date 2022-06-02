@@ -1,0 +1,83 @@
+# Using http 2.4 for this example. We will build our own custom image with our own html code deployed inside of it and clean it up to keep the image small.
+
+docker pull httpd:2.4
+
+# Create a docker container from the pulled image to create our template to build from:
+
+docker run --name webtemplate -d httpd:2.4
+
+# Run docker ps to see the running container:
+docker ps
+# No need to map an external port in this like the previous one since this is the template. 
+
+Connect to the contrainer to configure it.
+docker exec -it webtemplate bash
+
+Run updates
+apt update && apt install git -y
+
+Clone the repo with the html files we want
+git clone https://github.com/linuxacademy/content-widget-factory-inc
+
+Check to see that everything is there after the clone:
+
+ls -l /tmp/widget-factory-inc/
+
+Need to put this into the directory that HTTPD uses and clear it out since the default files are there
+
+ls -l htdocs
+
+rm htdocs/index.html
+
+cp -r /tmp/widget-factory-inc/web/* htdocs/
+
+ls -l htdocs
+
+Now you should see everything is there. Now exit the container and create the new image using the container image ID
+
+docker commit 56464trre654 example/widgetfactory:v1
+
+IF you run docker images, you will see both the base image and the new one just created. The size of the one we made is very large compared to the original image. Need to clean this up
+
+docker exec -it webtemplate bash
+
+rm -rf /tmp/widget-factory-inc/
+
+apt remove git -y && apt autoremove -y && apt-clean
+
+exit the bash then rebuild the image again.
+
+Note: You can use the container's name in place of its ID for docker commit. However, we will practice using the container ID in this lab.
+docker commit 76e3e4246ea0 example/widgetfactory:v2
+
+If you run docker imnages, you will see both versions that we created as well as the original template.
+
+Delete the v1 image since it is obsolete.
+
+docker rmi example/widgetfactory:v1
+
+Now we need to run the new image we created. Will run this three times for this example changing the ports.
+
+docker run -d --name web1 -p 8081:80 example/widgetfactory:v2
+docker run -d --name web2 -p 8082:80 example/widgetfactory:v2
+docker run -d --name web3 -p 8083:80 example/widgetfactory:v2
+
+Now we can stop the template container to preserve resources:
+docker stop webtemplate
+
+RUn docker ps again and you will see all three web servers running:
+
+In a web browser, type in the public IP of the host server with the port numbers from above to test if the web server is working.
+
+54.196.72.243:8081
+54.196.72.243:8082
+54.196.72.243:8083
+
+Web page is displayed. Lab is complete.
+
+Clean up resources once completed.
+
+docker rmi example/widgetfactory:v2
+docker rm -f $(docker  ps -a -q)
+
+docker rmi -f $(docker images -a -q)
