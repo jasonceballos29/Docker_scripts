@@ -52,3 +52,5 @@ docker-compose up
 #Run in detached mode.
 docker-compose up -d
 
+docker inspect dev1 | jq .[0].NetworkSettings.Networks[].IPAddress
+
