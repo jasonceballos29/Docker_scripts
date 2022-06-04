@@ -10,7 +10,7 @@ RUN yes | pip uninstall flask jinja2
 
 RUN yes | pip install flask jinja2
 
-run pip install jsonify
+RUN pip install jsonify
 
 ENV DEVICE="dev1"
 
