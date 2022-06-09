@@ -10,7 +10,7 @@ docker run --name webtemplate -d httpd:2.4
 docker ps
 # No need to map an external port in this like the previous one since this is the template. 
 
-Connect to the contrainer to configure it.
+Connect to the container to configure it.
 docker exec -it webtemplate bash
 
 Run updates
@@ -50,7 +50,7 @@ exit the bash then rebuild the image again.
 Note: You can use the container's name in place of its ID for docker commit. However, we will practice using the container ID in this lab.
 docker commit 76e3e4246ea0 example/widgetfactory:v2
 
-If you run docker imnages, you will see both versions that we created as well as the original template.
+If you run docker images, you will see both versions that we created as well as the original template.
 
 Delete the v1 image since it is obsolete.
 
