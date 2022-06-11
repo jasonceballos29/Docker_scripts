@@ -34,6 +34,14 @@ docker inspect
 
 docker kill
 
+docker run -itd --name centos01 centos:centos7
+
+docker run --network=wk18_nw -itd --name=week18test04 centos_luit
+
+sudo docker run –itd –network=wk18_nw centos:centos7 /bin/bash
+
+docker network create --driver=bridge --subnet=192.168.9.0/24 --gateway=192.168.9.10 wk18_nw
+
 docker run -dp 5000:5000 --name dev1 --unmount source=dev1-vol,target=/app dev1
 
 docker run -dp 5000:5000 --name dev1 --mount source=dev1-vol,target=/app dev1
@@ -55,4 +63,6 @@ docker-compose up
 docker-compose up -d
 
 docker inspect dev1 | jq .[0].NetworkSettings.Networks[].IPAddress
+
+docker network create -d overlay --opt encrypted pets-overlay docker service create --network pets-overlay --name db redis docker service create --network pets-overlay -p 8000:5000 -e DB=db --name web chrch/web
 
