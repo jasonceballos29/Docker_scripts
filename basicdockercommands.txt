@@ -38,6 +38,8 @@ docker run -itd --name centos01 centos:centos7
 
 docker run --network=wk18_nw -itd --name=week18test04 centos_luit
 
+docker run --network=wk18_nw -itd -v "$(pwd)":/tmp --name=week18test04 centos_luit
+
 sudo docker run –itd –network=wk18_nw centos:centos7 /bin/bash
 
 docker network create --driver=bridge --subnet=192.168.9.0/24 --gateway=192.168.9.10 wk18_nw
